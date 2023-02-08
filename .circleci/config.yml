@@ -245,6 +245,7 @@ jobs:
             apk add --update --no-cache tar gzip nodejs npm ansible curl aws-cli
       - run:
           name: Get backend url
+          working_directory: ./frontend
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
@@ -252,8 +253,8 @@ jobs:
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
-            echo "API_URL=http://${BACKEND_IP}:3030" >> frontend/.env
-            cat frontend/.env
+            echo "API_URL=http://${BACKEND_IP}:3030" >> .env
+            cat .env
       - restore_cache:
            keys: [frontend-build]
       - run:
