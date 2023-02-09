@@ -254,12 +254,10 @@ jobs:
             --query "Reservations[*].Instances[*].PublicIpAddress" \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text)
-            API_URL=$(curl --insecure  https://kvdb.io/WzHQc1HqQJMAesrDbHhjf1/backend_url)
-            echo "${API_URL}"
-            echo "NODE_ENV=production" >> frontend/.env
-            echo "API_URL=${API_URL}" >> frontend/.env
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL=${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
-            #API_URL=http://$BACKEND_PUBLIC_IP:3030
       - run:
           name: Deploy frontend objects to S3
           command: |
