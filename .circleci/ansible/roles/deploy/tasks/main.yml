@@ -9,7 +9,6 @@
   apt:
     upgrade: yes
 
-
 - name: "remove stale dependencies"
   become: true
   apt:
@@ -29,3 +28,20 @@
     global: yes
     production: yes
     state: present
+
+- name: "Copy artifact into Instance" 
+  become: true
+  copy:
+    src: ~/project/artifact.tar.gz
+    dest: /home/ubuntu/artifact.tar.gz
+
+
+- name: "Start app"
+  become: true
+  shell: |
+    cd /home/ubuntu
+    tar xzvf artifact.tar.gz
+    npm install
+    npm run build
+    pm2 stop all
+    pm2 start npm -- start
