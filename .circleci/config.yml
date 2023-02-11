@@ -444,7 +444,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install tar gzip npm nodejs -y
+            yum install tar gzip -y
       - run:
           name: Get old stack workflow id
           command: |
